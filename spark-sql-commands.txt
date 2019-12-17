@@ -1,0 +1,73 @@
+val sql = spark.sql("select count(`Country`),Region from data group by Region ").show
++--------------+--------------------+
+|count(Country)|              Region|
++--------------+--------------------+
+|           138|Middle East and N...|
+|            19|       North America|
+|           136|                Asia|
+|           262|  Sub-Saharan Africa|
+|           267|              Europe|
+|            99|Central America a...|
+|            79|Australia and Oce...|
++--------------+--------------------+
+
+val sql = spark.sql("select sum(`Total Profit`),Region from data group by Region ").show
++---------------------------------+--------------------+
+|sum(CAST(Total Profit AS DOUBLE))|              Region|
++---------------------------------+--------------------+
+|              5.105699334000002E7|Middle East and N...|
+|                       7708059.27|       North America|
+|             5.0799399100000024E7|                Asia|
+|             1.0165099246000007E8|  Sub-Saharan Africa|
+|              1.067719684500001E8|              Europe|
+|              4.133677820999999E7|Central America a...|
+|             3.1878420730000004E7|Australia and Oce...|
++---------------------------------+--------------------+
+
+val sql = spark.sql("select sum(`Units Sold`),Region from data group by Region ").show
++-------------------------------+--------------------+
+|sum(CAST(Units Sold AS DOUBLE))|              Region|
++-------------------------------+--------------------+
+|                       682363.0|Middle East and N...|
+|                       100739.0|       North America|
+|                       677524.0|                Asia|
+|                      1386894.0|  Sub-Saharan Africa|
+|                      1285808.0|              Europe|
+|                       503362.0|Central America a...|
+|                       417298.0|Australia and Oce...|
++-------------------------------+--------------------+
+
+spark.sql("select Country,count(`Item Type`),sum(`Total Profit`) from data where Country ='Libya'group by Country ").show
++-------+----------------+---------------------------------+
+|Country|count(Item Type)|sum(CAST(Total Profit AS DOUBLE))|
++-------+----------------+---------------------------------+
+|  Libya|               6|                       2379866.98|
++-------+----------------+---------------------------------+
+
+spark.sql("select Country,count(`Item Type`),sum(`Total Profit`)as total from data group by Country order by total desc ").show(5)
+
++--------------------+----------------+-----------------+
+|             Country|count(Item Type)|            total|
++--------------------+----------------+-----------------+
+|                Cuba|              11|       7351820.83|
+|    Papua New Guinea|               4|6085514.279999999|
+|Central African R...|               7|       5338519.48|
+|               Ghana|               8|       4736567.14|
+|            Malaysia|              10|       4715338.84|
++--------------------+----------------+-----------------+
+
+spark.sql("select count(distinct(Country))from data ").show
++-----------------------+
+|count(DISTINCT Country)|
++-----------------------+
+|                    185|
++-----------------------+
+
+ spark.sql("select count(distinct(Country)),`Sales Channel` from data group by `Sales Channel` ").show
+
++-----------------------+-------------+
+|count(DISTINCT Country)|Sales Channel|
++-----------------------+-------------+
+|                    176|      Offline|
+|                    179|       Online|
++-----------------------+-------------+
