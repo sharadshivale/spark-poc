@@ -71,3 +71,147 @@ spark.sql("select count(distinct(Country))from data ").show
 |                    176|      Offline|
 |                    179|       Online|
 +-----------------------+-------------+
+
+
+spark.sql("select Rank,Name,Platform,Genre,Year,Publisher from gamedata where Year>'2016'and Year!='N/A' ").show
+
++-----+--------------------+--------+------------+----+------------+
+| Rank|                Name|Platform|       Genre|Year|   Publisher|
++-----+--------------------+--------+------------+----+------------+
+| 5959|Imagine: Makeup A...|      DS|  Simulation|2020|     Ubisoft|
+|14393|Phantasy Star Onl...|     PS4|Role-Playing|2017|        Sega|
+|16244|Phantasy Star Onl...|     PSV|Role-Playing|2017|        Sega|
+|16441|Brothers Conflict...|     PSV|      Action|2017|Idea Factory|
++-----+--------------------+--------+------------+----+------------+
+
+
+ spark.sql("select Rank,Name,Platform,Genre,Year,Publisher,Global_Sales from gamedata where Rank>'0'and Rank <='10' ").show
++----+--------------------+--------+------------+----+---------+------------+
+|Rank|                Name|Platform|       Genre|Year|Publisher|Global_Sales|
++----+--------------------+--------+------------+----+---------+------------+
+|   1|          Wii Sports|     Wii|      Sports|2006| Nintendo|       82.74|
+|   2|   Super Mario Bros.|     NES|    Platform|1985| Nintendo|       40.24|
+|   3|      Mario Kart Wii|     Wii|      Racing|2008| Nintendo|       35.82|
+|   4|   Wii Sports Resort|     Wii|      Sports|2009| Nintendo|        33.0|
+|   5|Pokemon Red/Pokem...|      GB|Role-Playing|1996| Nintendo|       31.37|
+|   6|              Tetris|      GB|      Puzzle|1989| Nintendo|       30.26|
+|   7|New Super Mario B...|      DS|    Platform|2006| Nintendo|       30.01|
+|   8|            Wii Play|     Wii|        Misc|2006| Nintendo|       29.02|
+|   9|New Super Mario B...|     Wii|    Platform|2009| Nintendo|       28.62|
+|  10|           Duck Hunt|     NES|     Shooter|1984| Nintendo|       28.31|
++----+--------------------+--------+------------+----+---------+------------+
+
+ spark.sql("select Genre,sum(Global_Sales)as total from gamedata group by Genre order by total desc ").show
++------------+------------------+
+|       Genre|             total|
++------------+------------------+
+|      Action|1751.1799999999691|
+|      Sports| 1330.929999999988|
+|     Shooter|1037.3699999999901|
+|Role-Playing| 927.3699999999941|
+|    Platform| 831.3699999999974|
+|        Misc| 809.9599999999936|
+|      Racing| 732.0399999999955|
+|    Fighting|448.90999999999923|
+|  Simulation|392.19999999999783|
+|      Puzzle| 244.9500000000005|
+|   Adventure|239.04000000000138|
+|    Strategy| 175.1200000000004|
++------------+------------------+
+
+spark.sql("select Rank,Name,Platform,Genre,Year,Publisher,Global_Sales from gamedata where Name like '%Pokemon%' ").show
+
++----+--------------------+--------+------------+----+---------+------------+
+|Rank|                Name|Platform|       Genre|Year|Publisher|Global_Sales|
++----+--------------------+--------+------------+----+---------+------------+
+|   5|Pokemon Red/Pokem...|      GB|Role-Playing|1996| Nintendo|       31.37|
+|  13|Pokemon Gold/Poke...|      GB|Role-Playing|1999| Nintendo|        23.1|
+|  21|Pokemon Diamond/P...|      DS|Role-Playing|2006| Nintendo|       18.36|
+|  26|Pokemon Ruby/Poke...|     GBA|Role-Playing|2002| Nintendo|       15.85|
+|  27|Pokemon Black/Pok...|      DS|Role-Playing|2010| Nintendo|       15.32|
+|  33| Pokemon X/Pokemon Y|     3DS|Role-Playing|2013| Nintendo|       14.35|
+|  46|Pokemon HeartGold...|      DS|      Action|2009| Nintendo|        11.9|
+|  50|Pokemon Omega Rub...|     3DS|Role-Playing|2014| Nintendo|       11.33|
+|  59|Pokemon FireRed/P...|     GBA|Role-Playing|2004| Nintendo|       10.49|
+|  82|Pokemon Black 2/P...|      DS|Role-Playing|2012| Nintendo|        8.33|
+| 166|     Pokemon Stadium|     N64|    Strategy|1999| Nintendo|        5.45|
+| 172|     Pokemon Pinball|      GB|        Misc|1999| Nintendo|        5.31|
+| 210|Pokemon Mystery D...|      DS|Role-Playing|2007| Nintendo|        4.96|
+| 347|        Pokemon Snap|     N64|  Simulation|1999| Nintendo|        3.63|
+| 694|Pokemon Ranger: S...|      DS|Role-Playing|2008| Nintendo|         2.3|
+| 752|      Pokemon Ranger|      DS|Role-Playing|2006| Nintendo|        2.18|
+| 818|Pokemon Mystery D...|     GBA|Role-Playing|2005| Nintendo|        2.06|
+|1141|Pokemon Battle Re...|     Wii|Role-Playing|2006| Nintendo|        1.61|
+|1180|Pokemon Mystery D...|      DS|Role-Playing|2009| Nintendo|        1.58|
+|1194|Pokemon Pinball: ...|     GBA|        Misc|2003| Nintendo|        1.56|
++----+--------------------+--------+------------+----+---------+------------+
+
+ spark.sql("select `Order Date`,Country from data where `Order Date` like '%2014'  ").show(1000)
+
++----------+--------------------+
+|Order Date|             Country|
++----------+--------------------+
+|10/18/2014|               Libya|
+|11/24/2014|             Armenia|
+|  9/8/2014|          Cape Verde|
+|10/22/2014|             Senegal|
+| 1/28/2014|               Benin|
+|  4/8/2014|              Greece|
+| 5/21/2014|       Guinea-Bissau|
+|11/13/2014|             Ukraine|
+|  6/2/2014|               Nepal|
+| 6/27/2014|            Portugal|
+
+
+spark.sql("select Country,sum(`Total Profit`),count(`Item Type`) from data where `Order Date` like '%2014' group by Country").show
++--------------------+-----------------+----------------+
+|             Country|sum(Total Profit)|count(Item Type)|
++--------------------+-----------------+----------------+
+|               Libya|       1599619.22|               2|
+|             Armenia|        844085.52|               1|
+|          Cape Verde|         82032.48|               1|
+|             Senegal|        130510.44|               1|
+|               Benin|        536441.33|               3|
+|              Greece|        760840.82|               1|
+|       Guinea-Bissau|        769738.61|               2|
+|             Ukraine|       1667907.21|               2|
+|               Nepal|        530703.19|               2|
+|            Portugal|        432356.77|               2|
+|Central African R...|        273078.75|               1|
+|      United Kingdom|         359812.5|               1|
+|         Philippines|        391012.94|               1|
+|          East Timor|        245270.11|               2|
+|               Egypt|        140219.64|               1|
+|             Eritrea|         101878.5|               1|
+|             Romania|        580894.56|               2|
+|             Ireland|       1326834.38|               1|
+|            Zimbabwe|        885411.92|               4|
+|            Bulgaria|         578515.1|               1|
++--------------------+-----------------+----------------+
+
+spark.sql("select Country,sum(`Total Profit`),concat_ws(',',collect_list(`Item Type`))as items from data where `Order Date` like '%2014' group by Country").show
+
++--------------------+-----------------+--------------------+
+|             Country|sum(Total Profit)|               items|
++--------------------+-----------------+--------------------+
+|               Libya|       1599619.22|    Cosmetics,Cereal|
+|             Armenia|        844085.52|              Cereal|
+|          Cape Verde|         82032.48|             Clothes|
+|             Senegal|        130510.44|           Beverages|
+|               Benin|        536441.33|    Fruits,Meat,Meat|
+|              Greece|        760840.82|           Baby Food|
+|       Guinea-Bissau|        769738.61|Office Supplies,C...|
+|             Ukraine|       1667907.21| Cosmetics,Household|
+|               Nepal|        530703.19|   Vegetables,Fruits|
+|            Portugal|        432356.77|Office Supplies,C...|
+|Central African R...|        273078.75|     Office Supplies|
+|      United Kingdom|         359812.5|     Office Supplies|
+|         Philippines|        391012.94|           Baby Food|
+|          East Timor|        245270.11|Vegetables,Beverages|
+|               Egypt|        140219.64|           Beverages|
+|             Eritrea|         101878.5|              Cereal|
+|             Romania|        580894.56|    Snacks,Household|
+|             Ireland|       1326834.38|           Household|
+|            Zimbabwe|        885411.92|Meat,Baby Food,Fr...|
+|            Bulgaria|         578515.1|           Baby Food|
++--------------------+-----------------+--------------------+
