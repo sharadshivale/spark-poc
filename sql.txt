@@ -1,0 +1,13 @@
+select or.orders,c.CompanyName from orders or right join customers c on or.CustomerID=c.CustomerID where o.OrderID=(select o.OrderID from products p right join `order details` o on o.ProductID=p.ProductID where p.ProductName='Chai' order by p.ProductID);
+
+
+mysql> select or1.OrderID,c.CompanyName from orders or1 right join customers c o
+n or1.CustomerID=c.CustomerID where or1.OrderID in (select o.OrderID from produc
+ts p right join `order details` o on o.ProductID=p.ProductID where p.ProductName
+='Chai' order by p.ProductID) order by or1.OrderID;
+
+
+ select p.ProductID,p.ProductName,o.OrderID from products p right join `order details` o on o.ProductID=p.ProductID where p.ProductName='Chai' order by p.ProductID ;
+
+
+SELECT p.ProductName, SUM(od.Quantity) AS TotalUnits FROM `order details` od JOIN products p ON (p.ProductID = od.ProductID) GROUP BY p.ProductName HAVING SUM(od.Quantity) < 200;

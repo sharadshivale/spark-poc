@@ -1,0 +1,43 @@
+python 
+format ='%.3f %s is dollar %d
+format %(53.2356,'indian rupees',1)
+#this will set the value as 3 decimal float and store in format
+a='hello world'
+b=a.replace('world','india ')
+#this will replace the word with new word without changing original string
+string ='this is america '
+str=list(string)
+#this will change the string in a form of list
+string.count('s')
+string.split(' ')== split where it finds empty space
+string.upper()
+string.lower()
+string.swapcase()
+
+
+metadata means the location where data is stored
+
+
+
+kafka was designed by linkedin and was open source after 2011
+when thhere are multiple sources and multiple clients then it becomes complicated for connection and bandwith so to overcome we use kafka
+kafka is like a centralized hub where the data is first send from the sources and then send to clients as a single conection which helps in reducing no of connections
+source is called as producer kafka is called as broker's and client is called as consumer 
+kafka is a distributed message queue(FIFO)
+kafka is a publish subscribe messaging system
+fast,scalable,durable
+companies:linkedin has 400 nodes of cluster only for kafka has 18000 topics 
+netflix,twitter,airbnb,mozilla,uber
+kafka is written in scala and some part was written in java 
+working of kafka:
+1) kafka creates topic
+2)producer pushes data to topic 
+3)consumer subscribes to topic
+
+
+
+why is spark lazy ?and how to overcome that?
+
+
+
+
