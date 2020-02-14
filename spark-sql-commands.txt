@@ -279,6 +279,7 @@ spark.sql("select concat_ws(',',collect_list(`Item Type`)) as items,concat_ws(',
 
 //to find the total profit of publisher in each year
 
+
 spark.sql("select Year,concat_ws(',',collect_list(Publisher))as publisher,concat_ws(',',collect_list(Name))as name,round(sum(Global_Sales),2)as total from gamedata group by Year order by Year").show
 +----+--------------------+--------------------+------+
 |Year|           publisher|                name| total|
@@ -323,3 +324,38 @@ spark.sql("select Country,to_date(`Order Date`,'M/d/yyyy')as date,`Total Profit`
 |      Italy|2014-01-10|   528208.71|
 |   Maldives|2014-01-11|    357315.8|
 +-----------+----------+------------+
+
+//commands on different types of file format
+
+//avro
+//for avro start shell using "spark-shell --packages org.apache.spark:spark-avro_2.12:3.0.0-preview"this command
+val data =df.write.format("com.databricks.spark.avro").save("t2.avro")
+
+val sh= spark.read.format("com.databricks.spark.avro").option("header","True").load("t2.avro/part-00000-bd8be606-82b3-4800-9318-bdac93e6569a-c000.avro")
+
+
+
+//how to use avro in a program 
+//first add "org.apache.spark"%"spark-avro_2.12"%"3.0.0-preview" in dependencies in build.sbt
+//and then during using spark-submit use "--packages org.apache.spark:spark-avro_2.12:3.0.0-preview"
+//use "--packages org.apache.spark:spark-avro_2.11:2.4.4"when spark version is 2.4.4
+
+
+
+//parquet
+
+val data =df.write.parquet("t.parquet")
+
+
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+YARN_CONF_DIR=$HADOOP_HOME/etc/hadoop
+
+./spark-submit --class com.theorchard.royalties.ProcessTransactions  /var/www/html_asharma/royalties-compute/scala/target/scala-2.11/processtransactions_2.11-0.1.0-SNAPSHOT.jar
+
+
+
+
+
+./bin/spark-submit --packages org.apache.spark:spark-avro_2.11:2.4.4 --class com.theorchard.royalties.ProcessTransactions  /home/administrator/sharad2/royalties-compute/scala/target/scala-2.11/processtransactions_2.11-0.1.0-SNAPSHOT.jar /home/administrator/sharad2/royalties-compute/scala/src/test/resources/com/theorchard/royalties/config.json

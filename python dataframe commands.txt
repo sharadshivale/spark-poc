@@ -1,0 +1,2 @@
+//show all data
+df.select(df.columns).show()
