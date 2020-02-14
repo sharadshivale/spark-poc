@@ -359,3 +359,11 @@ YARN_CONF_DIR=$HADOOP_HOME/etc/hadoop
 
 
 ./bin/spark-submit --packages org.apache.spark:spark-avro_2.11:2.4.4 --class com.theorchard.royalties.ProcessTransactions  /home/administrator/sharad2/royalties-compute/scala/target/scala-2.11/processtransactions_2.11-0.1.0-SNAPSHOT.jar /home/administrator/sharad2/royalties-compute/scala/src/test/resources/com/theorchard/royalties/config.json
+
+
+
+
+
+****************************to import all datatypes spark program***********
+from pyspark.sql.types import *   (for python)
+import org.apache.spark.sql.types._   (for scala)

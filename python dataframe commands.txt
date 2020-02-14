@@ -1,2 +1,4 @@
 //show all data
 df.select(df.columns).show()
+input=df.first()
+rows = input.filter(lambda line: line != header)
